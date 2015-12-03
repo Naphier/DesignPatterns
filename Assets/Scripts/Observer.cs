@@ -1,18 +1,16 @@
 ﻿using UnityEngine;
-using System.Collections;
-
 public enum EVENTS { PLAYER_JUMPED, PLAYER_FIRED, JUMPED, FIRED }
 
-public interface Observer 
+public interface Observer
 {
 	void OnNotify(GameObject actor, EVENTS e);
 }
 
-public class AchievementObserver : Observer 
+public class AchievementObserver : Observer
 {
 	enum Achievements { JUMPED_TEN_TIMES, FIRED_100_TIMES }
-	int numberOfPlayerJumps = 0;
-	int timesPlayerFired = 0;
+	int _numberOfPlayerJumps;
+	int _timesPlayerFired;
 
 	public void OnNotify(GameObject actor, EVENTS e)
 	{
@@ -28,8 +26,8 @@ public class AchievementObserver : Observer
 
 	void HandlePlayerFire()
 	{
-		timesPlayerFired++;
-		if(timesPlayerFired == 100)
+		_timesPlayerFired++;
+		if(_timesPlayerFired == 100)
 		{
 			Unlock(Achievements.FIRED_100_TIMES);
 		}
@@ -37,8 +35,8 @@ public class AchievementObserver : Observer
 
 	void HandlePlayerJump()
 	{
-		numberOfPlayerJumps++;
-		if(numberOfPlayerJumps == 10)
+		_numberOfPlayerJumps++;
+		if(_numberOfPlayerJumps == 10)
 		{
 			Unlock(Achievements.JUMPED_TEN_TIMES);
 		}
@@ -46,6 +44,6 @@ public class AchievementObserver : Observer
 
 	void Unlock(Achievements a)
 	{
-		Debug.Log ("You just unlocked the " + a.ToString() + " achievement!");
+		Debug.Log ("You just unlocked the " + a + " achievement!");
 	}
 }
