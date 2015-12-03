@@ -1,23 +1,25 @@
 ﻿using UnityEngine;
-using System.Collections;
-
-public class Command 
+public class Command
 {
-	public virtual void Execute(GameObject actor){}	
+	public virtual void Execute(GameObject actor){}
 }
 
-public class JumpCommand : Command 
+public class JumpCommand : Command
 {
+	CharacterComponent _actor;
 	public override void Execute(GameObject actor)
 	{
-		actor.GetComponent<CharacterComponent>().Jump();
+		if (_actor != actor) _actor = actor.GetComponent<CharacterComponent>();
+		_actor.Jump();
 	}
 }
 
 public class FireCommand : Command
 {
-	public override void Execute (GameObject actor)
+    CharacterComponent _actor;
+    public override void Execute (GameObject actor)
 	{
-		actor.GetComponent<CharacterComponent>().Fire();
+        if (_actor != actor) _actor = actor.GetComponent<CharacterComponent>();
+        _actor.Fire();
 	}
 }
