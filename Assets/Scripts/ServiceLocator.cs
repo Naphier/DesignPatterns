@@ -18,6 +18,7 @@
         /// </summary>
         static Services()
         {
+            if(Logger == null)
             Logger = new LoggerConsole();
         }
 

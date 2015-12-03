@@ -2,7 +2,7 @@
 using Assets.Scripts;
 using UnityEngine;
 
-public class LoggingExample : MonoBehaviour
+public class LoggingExampleSimple : MonoBehaviour
 {
     ILogger Logger;
     int myVariable = 55;
@@ -13,7 +13,10 @@ public class LoggingExample : MonoBehaviour
     {
 
         if (ColorMessages)
-            Services.Logger = new LoggerConsole {ColorMessages = ColorMessages};
+        {
+            var l = Services.Logger as LoggerConsole;
+            if (l != null) l.ColorMessages = ColorMessages;
+        };
 
 
 	    Logger = Services.Logger;
