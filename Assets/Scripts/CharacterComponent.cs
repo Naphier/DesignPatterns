@@ -7,8 +7,8 @@ public abstract class CharacterComponent: MonoBehaviour
 
 	protected void Notify(GameObject actor, EVENTS e)
 	{
-	    for (var i = 0; i < Observers.Count; i++)
-            Observers[i].OnNotify(actor, e);
+		for (var i = 0; i < Observers.Count; i++)
+			Observers[i].OnNotify(actor, e);
 	}
 
 	public virtual void Fire()

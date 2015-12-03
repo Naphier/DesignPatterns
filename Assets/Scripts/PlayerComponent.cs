@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerComponent :  CharacterComponent 
+public class PlayerComponent :  CharacterComponent
 {
-	public override void Fire () 
+	public override void Fire ()
 	{
 		Notify(gameObject, EVENTS.PLAYER_FIRED);
 		base.Fire();
@@ -17,14 +17,14 @@ public class PlayerComponent :  CharacterComponent
 		Debug.Log ("Make " + name + " jump.");
 	}
 	// Use this for initialization
-	void Awake () 
+	void Awake ()
 	{
-		observers.Add(new AchievementObserver());
+		Observers.Add(new AchievementObserver());
 	}
 	// Update is called once per frame
-	void Update () 
+	void Update ()
 	{
-	
+
 	}
-	
+
 }
