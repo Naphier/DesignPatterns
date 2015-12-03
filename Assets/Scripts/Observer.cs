@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum EVENTS { PLAYER_JUMPED, PLAYER_FIRED, JUMPED, FIRED }
+public enum EVENTS { FIRED, RELOADED }
 
 public interface Observer 
 {
@@ -10,39 +10,47 @@ public interface Observer
 
 public class AchievementObserver : Observer 
 {
-	enum Achievements { JUMPED_TEN_TIMES, FIRED_100_TIMES }
-	int numberOfPlayerJumps = 0;
+	enum Achievements { FIRED_100_TIMES, RELOADED_10_TIMES }
 	int timesPlayerFired = 0;
+    int timesPlayerReloaded = 0;
 
 	public void OnNotify(GameObject actor, EVENTS e)
 	{
 		switch(e)
 		{
-			case EVENTS.PLAYER_JUMPED: HandlePlayerJump();
+			case EVENTS.FIRED: HandleFire(actor);
 			break;
 
-			case EVENTS.PLAYER_FIRED: HandlePlayerFire();
-			break;
+            case EVENTS.RELOADED: HandleReload(actor);
+            break;
 		}
 	}
 
-	void HandlePlayerFire()
+	void HandleFire(GameObject actor)
 	{
-		timesPlayerFired++;
+        if(actor.GetComponent<PlayerComponent>())
+        {
+            timesPlayerFired++;
+        }
+		
 		if(timesPlayerFired == 100)
 		{
 			Unlock(Achievements.FIRED_100_TIMES);
 		}
 	}
 
-	void HandlePlayerJump()
-	{
-		numberOfPlayerJumps++;
-		if(numberOfPlayerJumps == 10)
-		{
-			Unlock(Achievements.JUMPED_TEN_TIMES);
-		}
-	}
+    void HandleReload(GameObject actor)
+    {
+        if(actor.GetComponent<PlayerComponent>())
+        {
+            timesPlayerReloaded++;
+        }
+
+        if(timesPlayerReloaded == 10)
+        {
+            Unlock(Achievements.RELOADED_10_TIMES);
+        }
+    }
 
 	void Unlock(Achievements a)
 	{

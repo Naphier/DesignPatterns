@@ -3,26 +3,28 @@ using System.Collections;
 
 public class WeaponComponent : MonoBehaviour {
     public Transform firePosition;
+    public float rof = 1.0f;
     public string weaponName;
     public int damagePerShot = 20;
+    public int totalAmmo = 100;
     public int maxAmmoPerClip = 20;
-    public int clips;
     public float range = 100f;
     public Texture2D crosshair;
 
     protected Ray shootRay;
     protected RaycastHit shootHit;
 
+    float timer;
     int ammo;
     bool canFire = true;
     bool hasAmmo = true;
     bool hasClips = true;
     bool isActive = true;
-    GameObject owner;
+    bool ownerIsPlayer = true;
+    CharacterComponent owner;
 
     public bool CanFire() { return canFire; }
     public bool IsActive() { return isActive; }
-    public GameObject GetOwner() { return owner; }
     public bool HasClips() { return hasClips; }
     public bool HasAmmo() { return hasAmmo; }
     public int GetAmmo() { return ammo; }
@@ -40,41 +42,63 @@ public class WeaponComponent : MonoBehaviour {
     public virtual void Awake()
     {
         ammo = maxAmmoPerClip;
+        owner = GetComponent<CharacterComponent>();
+        timer = rof;
+        ammo = maxAmmoPerClip;
     }
 
     public virtual void Fire()
     {
         if(canFire)
         {
-            Debug.Log("Player is firing");
+            owner.Notify(gameObject, EVENTS.FIRED);
+            canFire = false;
+            timer = 0;
+            ammo--;
+            Debug.Log("Ammo: " + ammo);
         }
-    }
-
-    public virtual void Reload()
-    {
-        if(hasClips)
+        else
         {
             
         }
     }
 
-	void Start () 
+    public virtual void Reload()
     {
-	
-	}
+        if(totalAmmo > 0)
+        {
+            int ammoSpent = maxAmmoPerClip - ammo;
+            if(ammoSpent > totalAmmo)
+            {
+                totalAmmo = 0;
+                ammo += totalAmmo;
+            }
+            else
+            {
+                totalAmmo -= ammoSpent;
+                ammo = maxAmmoPerClip;
+            }
+            owner.Notify(gameObject, EVENTS.RELOADED);
+            Debug.Log("Total Ammo: " + totalAmmo);
+        }
+    }
 	
 	protected virtual void Update () 
     {
+        if(!canFire && timer > rof)
+        {
+            canFire = true;
+        }
+
         if(ammo < 1)
         {
             hasAmmo = false;
-            canFire = false;
         }
 
-        if(clips < 1)
+        if(!hasAmmo)
         {
-            hasClips = false;
             canFire = false;
         }
+        timer += Time.deltaTime;
 	}
 }

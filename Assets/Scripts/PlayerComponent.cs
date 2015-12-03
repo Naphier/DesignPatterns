@@ -5,20 +5,26 @@ public class PlayerComponent :  CharacterComponent
 {
 	public override void Fire () 
 	{
-		Notify(gameObject, EVENTS.PLAYER_FIRED);
+        if(activeWeapon && activeWeapon.IsActive())
+        {
+            activeWeapon.Fire();
+        }
 		base.Fire();
-		Debug.Log("Firing " + name + "'s weapon.");
 	}
 
-	public override void Jump ()
-	{
-		Notify(gameObject, EVENTS.PLAYER_JUMPED);
-		base.Jump();
-		Debug.Log ("Make " + name + " jump.");
-	}
+    public override void Reload()
+    {
+        if(activeWeapon && activeWeapon.IsActive())
+        {
+            activeWeapon.Reload();
+        }
+        base.Reload();
+    }
+
 	// Use this for initialization
 	void Awake () 
 	{
+        activeWeapon = GetComponent<WeaponComponent>();
 		observers.Add(new AchievementObserver());
 	}
 	// Update is called once per frame

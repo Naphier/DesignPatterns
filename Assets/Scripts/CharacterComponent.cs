@@ -6,8 +6,9 @@ using System.Collections.Generic;
 public class CharacterComponent: MonoBehaviour
 {
 	protected List<Observer> observers = new List<Observer>();
+    protected WeaponComponent activeWeapon;
 
-	protected void Notify(GameObject actor, EVENTS e)
+	public void Notify(GameObject actor, EVENTS e)
 	{
 		foreach(Observer o in observers)
 		{
@@ -15,12 +16,6 @@ public class CharacterComponent: MonoBehaviour
 		}
 	}
 
-	public virtual void Fire() 
-	{
-		Notify(gameObject, EVENTS.FIRED);
-	}
-	public virtual void Jump() 
-	{
-		Notify(gameObject, EVENTS.JUMPED);
-	}
+	public virtual void Fire() { }
+    public virtual void Reload() { }
 }

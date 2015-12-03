@@ -4,7 +4,7 @@ using System.Collections;
 public class InputHandler : MonoBehaviour {
 
 	Command MOUSE_BUTTON0;
-	Command SPACE_BAR;
+    Command KEYCODE_R;
 	Command currentCommand;
 
 	public GameObject player;
@@ -16,8 +16,8 @@ public class InputHandler : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+        KEYCODE_R = new ReloadCommand();
 		MOUSE_BUTTON0 = new FireCommand();
-		SPACE_BAR = new JumpCommand();
 	}
 	
 	// Update is called once per frame
@@ -33,8 +33,7 @@ public class InputHandler : MonoBehaviour {
 	Command HandleInput()
 	{
 		if(Input.GetMouseButton(0)) { return MOUSE_BUTTON0; }
-		if(Input.GetKeyDown(KeyCode.Space)) { return SPACE_BAR; }
-
+        if (Input.GetKeyDown(KeyCode.R)) { return KEYCODE_R; }
 		return null;
 	}
 }
