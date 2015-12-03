@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerComponent :  CharacterComponent 
+public class PlayerComponent :  CharacterComponent
 {
-	public override void Fire () 
+	public override void Fire ()
 	{
         if(activeWeapon && activeWeapon.IsActive())
         {
@@ -22,15 +22,16 @@ public class PlayerComponent :  CharacterComponent
     }
 
 	// Use this for initialization
-	void Awake () 
+	void Awake ()
 	{
         activeWeapon = GetComponent<WeaponComponent>();
-		observers.Add(new AchievementObserver());
+		Observers.Add(new AchievementObserver());
+
 	}
 	// Update is called once per frame
-	void Update () 
+	void Update ()
 	{
-	
+
 	}
-	
+
 }

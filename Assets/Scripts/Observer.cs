@@ -1,19 +1,17 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public enum EVENTS { FIRED, RELOADED }
 
-public interface Observer 
+public interface Observer
 {
 	void OnNotify(GameObject actor, EVENTS e);
 }
 
-public class AchievementObserver : Observer 
+public class AchievementObserver : Observer
 {
 	enum Achievements { FIRED_100_TIMES, RELOADED_10_TIMES }
-	int timesPlayerFired = 0;
-    int timesPlayerReloaded = 0;
-
+	int _timesPlayerReloaded;
+	int _timesPlayerFired;
 	public void OnNotify(GameObject actor, EVENTS e)
 	{
 		switch(e)
@@ -28,25 +26,20 @@ public class AchievementObserver : Observer
 
 	void HandleFire(GameObject actor)
 	{
-        if(actor.GetComponent<PlayerComponent>())
-        {
-            timesPlayerFired++;
-        }
-		
-		if(timesPlayerFired == 100)
+		_timesPlayerFired++;
+		if(_timesPlayerFired == 100)
 		{
 			Unlock(Achievements.FIRED_100_TIMES);
 		}
 	}
-
     void HandleReload(GameObject actor)
     {
         if(actor.GetComponent<PlayerComponent>())
         {
-            timesPlayerReloaded++;
+            _timesPlayerReloaded++;
         }
 
-        if(timesPlayerReloaded == 10)
+        if(_timesPlayerReloaded == 10)
         {
             Unlock(Achievements.RELOADED_10_TIMES);
         }
@@ -54,6 +47,6 @@ public class AchievementObserver : Observer
 
 	void Unlock(Achievements a)
 	{
-		Debug.Log ("You just unlocked the " + a.ToString() + " achievement!");
+		Debug.Log ("You just unlocked the " + a + " achievement!");
 	}
 }
